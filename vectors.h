@@ -11,12 +11,28 @@ private:
   double z;
 
 public:
-  Vector(double x = 0, double y = 0, double z = 0);
-  Vector operator+(const Vector &other);
-  Vector operator-(const Vector &other);
-  double dot(const Vector &other);
-  double norm();
-  void display() const;
+  Vector();
+  Vector(double, double, double);
+  Vector(const Vector &);
+  Vector &operator+=(const Vector &);
+  Vector &operator-=(const Vector &);
+  Vector &operator*=(double);
+  Vector &operator/=(double);
+  Vector &operator-();
+  double dot(const Vector &);
+  Vector cross(const Vector &);
+  double length() const;
+  Vector norm() const;
+  Vector operator!();
+  double X() const;
+  double Y() const;
+  double Z() const;
 };
+
+Vector operator+(const Vector &, const Vector &);
+Vector operator-(const Vector &, const Vector &);
+Vector operator*(const Vector &, double);
+Vector operator*(double, const Vector &);
+Vector operator/(const Vector &, double);
 
 #endif
