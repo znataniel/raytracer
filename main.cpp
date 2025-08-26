@@ -1,4 +1,4 @@
-#include "vectors.h"
+#include "include/vectors.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -7,9 +7,12 @@
 #define HEIGHT 256
 
 int main(void) {
-  std::ofstream outfile("out.ppm", std::ios::binary);
+  std::ofstream outfile("./build/out.ppm", std::ios::binary);
 
-  outfile << "P3" << " " << WIDTH << " " << HEIGHT << " " << "255" << "\n";
+  outfile << "P3"
+          << " " << WIDTH << " " << HEIGHT << " "
+          << "255"
+          << "\n";
   for (int j = 0; j < HEIGHT; j++) {
     std::clog << "\rScanlines remaining: " << HEIGHT - j << " " << std::flush;
     for (int i = 0; i < WIDTH; i++) {
