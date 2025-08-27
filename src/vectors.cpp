@@ -1,7 +1,4 @@
-#include "vectors.h"
-
-using std::cout;
-using std::endl;
+#include "../include/vectors.h"
 
 Vector::Vector() {
   x = 0;
@@ -92,3 +89,7 @@ Vector operator*(const Vector &lhs, double k) {
 
 Vector operator*(double k, const Vector &rhs) { return rhs * k; }
 Vector operator/(const Vector &lhs, double k) { return (1 / k) * lhs; }
+
+std::ostream &operator<<(std::ostream out, const Vector &rhs) {
+  return out << rhs.X() << " " << rhs.Y() << " " << rhs.Z();
+}

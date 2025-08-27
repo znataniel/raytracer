@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <ostream>
 
 class Vector {
 private:
@@ -34,5 +35,9 @@ Vector operator-(const Vector &, const Vector &);
 Vector operator*(const Vector &, double);
 Vector operator*(double, const Vector &);
 Vector operator/(const Vector &, double);
+
+std::ostream& operator<<(std::ostream, const Vector&);
+
+using Point = Vector;
 
 #endif
