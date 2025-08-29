@@ -20,8 +20,8 @@ public:
   Vector &operator*=(double);
   Vector &operator/=(double);
   Vector &operator-();
-  double dot(const Vector &);
-  Vector cross(const Vector &);
+  double dot(const Vector &) const;
+  Vector cross(const Vector &) const;
   double length() const;
   Vector norm() const;
   Vector operator!();

@@ -53,11 +53,11 @@ Vector &Vector::operator-() {
   return *this;
 }
 
-double Vector::dot(const Vector &rhs) {
+double Vector::dot(const Vector &rhs) const {
   return (x * rhs.x + y * rhs.y + z * rhs.z);
 }
 
-Vector Vector::cross(const Vector &rhs) {
+Vector Vector::cross(const Vector &rhs) const {
   return Vector(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
                 x * rhs.y - y * rhs.x);
 }
