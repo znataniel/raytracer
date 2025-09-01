@@ -1,5 +1,7 @@
 #include "include/colors.h"
+#include "include/hittables.h"
 #include "include/rays.h"
+#include "include/spheres.h"
 #include "include/vectors.h"
 
 #include <algorithm>
@@ -8,25 +10,20 @@
 #include <fstream>
 #include <iostream>
 
-double hit_sphere(const Point &sph_center, const double r, const Ray &ray) {
-  const Vector d = ray.direction();
-  const Vector q = sph_center - ray.origin();
-  const double a = d.length() * d.length();
-  const double h = d.dot(q);
-  const double c = q.length() * q.length() - r * r;
-  const double disc = h * h - a * c;
-  return (disc < 0) ? -1.0 : (h - std::sqrt(disc)) / a;
-}
-
 const Color ray_color(const Ray &r) {
-  const double t = (hit_sphere(Point(-0.2, 0.2, -1.0), 0.5, r));
-  if (t > 0) {
-    const Vector normal = r.at(t) - Vector(-0.2, 0.2, -1.0);
-    return Color(normal.X() + 1, normal.Y() + 1, normal.Z() + 1) / 2;
+  const Sphere sphere{Point(-0.2, 0.2, -1.0), 0.5};
+  hit_record h_rec{};
+
+  if (sphere.hit(r, 0, 1000, h_rec)) {
+    return Color(h_rec.normal.X() + 1, h_rec.normal.Y() + 1,
+                 h_rec.normal.Z() + 1) /
+           2;
   }
+
   const Vector normalized = r.direction().norm();
   const double a = (normalized.Y() + 1) / 2;
-  const Color lerp = (1 - a) * Color(1, 1, 1) + a * Color(0.00000001, 1.0, 0.00000001);
+  const Color lerp =
+      (1 - a) * Color(1, 1, 1) + a * Color(0.00000001, 1.0, 0.00000001);
   return lerp;
 }
 
