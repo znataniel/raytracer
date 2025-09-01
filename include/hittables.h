@@ -8,6 +8,11 @@ struct hit_record {
   Point p;
   Vector normal;
   double t;
+  bool front_face;
+  void set_front_face(const Ray &r, Vector &outwards_normal) {
+    front_face = r.direction().dot(outwards_normal) < 0;
+    normal = front_face? outwards_normal : -outwards_normal;
+  }
 };
 
 class Hittable {

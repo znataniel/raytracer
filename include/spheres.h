@@ -42,7 +42,9 @@ public:
 
     rec.t = t;
     rec.p = r.at(rec.t);
-    rec.normal = (rec.p - center) / radius;
+
+    Vector normal = (rec.p - center) / radius;
+    rec.set_front_face(r, normal);
 
     return true;
   }
