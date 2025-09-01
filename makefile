@@ -5,6 +5,7 @@ CXXFLAGS = -Wall -O2 -std=c++20 -Iinclude -Isrc
 # Directories
 SRC_DIR = src
 BUILD_DIR = build
+STATIC_DIR = static
 TARGET = $(BUILD_DIR)/raytracer
 
 # Source and object files
@@ -37,5 +38,8 @@ run: $(TARGET)
 # Clean build files
 clean:
 	rm -rf $(BUILD_DIR)
+
+readme:
+	convert $(BUILD_DIR)/out.ppm $(STATIC_DIR)/current.jpeg
 
 .PHONY: all run clean
