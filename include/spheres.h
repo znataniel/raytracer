@@ -2,8 +2,7 @@
 #define SPHERES_H
 
 #include "hittables.h"
-#include "vectors.h"
-#include <cmath>
+#include "utils.h"
 
 class Sphere : public Hittable {
 private:

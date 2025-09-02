@@ -3,7 +3,6 @@
 
 #include "vectors.h"
 #include <fstream>
-#include <iostream>
 
 using Color = Vector;
 

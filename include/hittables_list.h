@@ -2,8 +2,7 @@
 #define HITTABLES_LIST_H
 
 #include "hittables.h"
-#include "vectors.h"
-#include <memory>
+#include "utils.h"
 #include <vector>
 
 using std::shared_ptr;

@@ -1,14 +1,9 @@
-#include "include/colors.h"
 #include "include/hittables.h"
-#include "include/rays.h"
 #include "include/spheres.h"
-#include "include/vectors.h"
+#include "include/utils.h"
 
 #include <algorithm>
-#include <cmath>
-#include <cstdlib>
 #include <fstream>
-#include <iostream>
 
 const Color ray_color(const Ray &r) {
   const Sphere sphere{Point(-0.2, 0.2, -1.0), 0.5};
