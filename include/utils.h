@@ -9,11 +9,11 @@
 #include "colors.h"
 #include "rays.h"
 #include "vectors.h"
+#include "intervals.h"
 
 using std::make_shared;
 using std::shared_ptr;
 
-const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.1415926535897932385;
 
 inline double deg_to_rad(double degs) { return degs * pi / 180.0; }

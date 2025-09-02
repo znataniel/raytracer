@@ -10,7 +10,7 @@ const Color ray_color(const Ray &r, const HittableList &world) {
 
   hit_record h_rec{};
 
-  if (world.hit(r, 0, infinity, h_rec)) {
+  if (world.hit(r, Interval(0, infinity), h_rec)) {
     return Color(h_rec.normal.X() + 1, h_rec.normal.Y() + 1,
                  h_rec.normal.Z() + 1) /
            2;

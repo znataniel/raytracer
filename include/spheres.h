@@ -13,8 +13,7 @@ public:
   Sphere(const Point &center, double radius)
       : center(center), radius(std::fmax(0, radius)) {}
 
-  bool hit(const Ray &r, double ray_tmin, double ray_tmax,
-           hit_record &rec) const override {
+  bool hit(const Ray &r, Interval ray_t, hit_record &rec) const override {
 
     const Vector d = r.direction();
     const Vector q = center - r.origin();
@@ -31,10 +30,10 @@ public:
 
     // root 1
     double t = (h - sqrt_disc) / a;
-    if (t < ray_tmin || ray_tmax < t) {
+    if (!ray_t.surrounds(t)) {
       // root 2
       t = (h + sqrt_disc) / a;
-      if (t < ray_tmin || ray_tmax < t) {
+      if (!ray_t.surrounds(t)) {
         return false;
       }
     }

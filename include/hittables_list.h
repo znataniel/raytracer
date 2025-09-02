@@ -20,14 +20,13 @@ public:
   // ray_tmax is the farthest the ray can go, it starts there. While we
   // traverse the ray to find hit objects, we start updating that limit to
   // stop going farther away than the closest thing we hit
-  bool hit(const Ray &r, double ray_tmin, double ray_tmax,
-           hit_record &rec) const override {
-    double closest_t_so_far = ray_tmax;
+  bool hit(const Ray &r, Interval ray_t, hit_record &rec) const override {
+    double closest_t_so_far = ray_t.max;
     bool did_hit = false;
     hit_record aux_record{};
 
     for (const auto &o : objects) {
-      if (o->hit(r, ray_tmin, closest_t_so_far, aux_record)) {
+      if (o->hit(r, Interval(ray_t.min, closest_t_so_far), aux_record)) {
         did_hit = true;
         closest_t_so_far = aux_record.t;
       }
