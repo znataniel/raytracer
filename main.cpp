@@ -1,15 +1,16 @@
 #include "include/hittables.h"
+#include "include/hittables_list.h"
 #include "include/spheres.h"
 #include "include/utils.h"
 
 #include <algorithm>
 #include <fstream>
 
-const Color ray_color(const Ray &r) {
-  const Sphere sphere{Point(-0.2, 0.2, -1.0), 0.5};
+const Color ray_color(const Ray &r, const HittableList &world) {
+
   hit_record h_rec{};
 
-  if (sphere.hit(r, 0, 1000, h_rec)) {
+  if (world.hit(r, 0, infinity, h_rec)) {
     return Color(h_rec.normal.X() + 1, h_rec.normal.Y() + 1,
                  h_rec.normal.Z() + 1) /
            2;
@@ -17,8 +18,7 @@ const Color ray_color(const Ray &r) {
 
   const Vector normalized = r.direction().norm();
   const double a = (normalized.Y() + 1) / 2;
-  const Color lerp =
-      (1 - a) * Color(1, 1, 1) + a * Color(0.00000001, 1.0, 0.00000001);
+  const Color lerp = (1 - a) * Color(1, 1, 1) + a * Color(0.5, 0.7, 1.0);
   return lerp;
 }
 
@@ -45,6 +45,10 @@ int main(void) {
   const Point vp_pixel_00 =
       vp_upper_left_corner + d_pixel_u / 2 + d_pixel_v / 2;
 
+  HittableList world;
+  world.add(make_shared<Sphere>(Point(0, 0, -1), 0.5));
+  world.add(make_shared<Sphere>(Point(0, -100.5, -1), 100));
+
   // ppm header
   outfile << "P3"
           << " " << im_width << " " << im_height << " "
@@ -58,7 +62,7 @@ int main(void) {
       const Point pixel = vp_pixel_00 + d_pixel_u * i + d_pixel_v * j;
       const Vector ray_dir = pixel - camera;
       const Ray ray{camera, ray_dir};
-      const Color color = ray_color(ray);
+      const Color color = ray_color(ray, world);
 
       write_color(outfile, color);
     }
