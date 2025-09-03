@@ -1,3 +1,4 @@
+#include "include/cameras.h"
 #include "include/hittables.h"
 #include "include/hittables_list.h"
 #include "include/spheres.h"
@@ -6,69 +7,19 @@
 #include <algorithm>
 #include <fstream>
 
-const Color ray_color(const Ray &r, const HittableList &world) {
-
-  hit_record h_rec{};
-
-  if (world.hit(r, Interval(0, infinity), h_rec)) {
-    return Color(h_rec.normal.X() + 1, h_rec.normal.Y() + 1,
-                 h_rec.normal.Z() + 1) /
-           2;
-  }
-
-  const Vector normalized = r.direction().norm();
-  const double a = (normalized.Y() + 1) / 2;
-  const Color lerp = (1 - a) * Color(1, 1, 1) + a * Color(0.5, 0.7, 1.0);
-  return lerp;
-}
-
 int main(void) {
   std::ofstream outfile("build/out.ppm", std::ios::binary);
-
-  const double aspect_ratio = 16.0 / 9.0;
-  const int im_width = 400;
-  const int im_height = std::max(1, int(im_width / aspect_ratio));
-
-  const double vp_height = 2;
-  const double vp_width = vp_height * (double(im_width) / im_height);
-
-  const double focal_length = 1.0;
-  const Vector camera = Vector(0, 0, 0);
-
-  const Vector vp_vector_u = Vector(vp_width, 0, 0);
-  const Vector vp_vector_v = Vector(0, -vp_height, 0);
-  const Vector d_pixel_u = vp_vector_u / im_width;
-  const Vector d_pixel_v = vp_vector_v / im_height;
-
-  const Point vp_upper_left_corner =
-      camera - Vector(0, 0, focal_length) - vp_vector_u / 2 - vp_vector_v / 2;
-  const Point vp_pixel_00 =
-      vp_upper_left_corner + d_pixel_u / 2 + d_pixel_v / 2;
 
   HittableList world;
   world.add(make_shared<Sphere>(Point(0, 0, -1), 0.5));
   world.add(make_shared<Sphere>(Point(0, -100.5, -1), 100));
 
-  // ppm header
-  outfile << "P3"
-          << " " << im_width << " " << im_height << " "
-          << "255"
-          << "\n";
+  Camera camera{};
+  camera.aspect_ratio = 16.0 / 9.0;
+  camera.im_width = 400;
 
-  for (int j = 0; j < im_height; j++) {
-    std::clog << "\rScanlines remaining: " << im_height - j << " "
-              << std::flush;
-    for (int i = 0; i < im_width; i++) {
-      const Point pixel = vp_pixel_00 + d_pixel_u * i + d_pixel_v * j;
-      const Vector ray_dir = pixel - camera;
-      const Ray ray{camera, ray_dir};
-      const Color color = ray_color(ray, world);
-
-      write_color(outfile, color);
-    }
-  }
+  camera.render(outfile, world);
 
   outfile.close();
-  std::cout << "\rDone.                                      " << std::endl;
   return EXIT_SUCCESS;
 }
